@@ -34,9 +34,13 @@ jobs:
         run: |
           git config user.name "DLP Bot"
           git config user.email "dlp-bot@github-actions"
-          # Récupérer les derniers changements d'abord
+          # Mettre le CSV de côté temporairement
+          git stash
+          # Récupérer les derniers changements
           git pull --rebase origin main
-          # Puis ajouter et committer
+          # Récupérer le CSV mis de côté
+          git stash pop
+          # Committer et pousser
           git add data/wait_times.csv
           git diff --staged --quiet || git commit -m "Data: $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
