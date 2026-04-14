@@ -2,22 +2,14 @@ name: Collecte temps d'attente DLP
 
 on:
   schedule:
-    # Toutes les 5 minutes — GitHub Actions ne permet pas moins de 5 min
-    # Plage souhaitée : 8h30-23h heure de Paris (UTC+2 en été / UTC+1 en hiver)
-    # En été  (UTC+2) : 6h30-21h UTC → on couvre 6h-21h UTC pour être sûr
-    # En hiver (UTC+1) : 7h30-22h UTC → couvert par la même plage
-    - cron: '30-59/5 6 * * *'   # 6h30 à 6h55 UTC
-    - cron: '*/5 7-20 * * *'    # 7h00 à 20h55 UTC
-    - cron: '0-55/5 21 * * *'   # 21h00 à 21h55 UTC
-
-  # Permet aussi de lancer manuellement depuis l'interface GitHub
+    - cron: '30-59/5 6 * * *'
+    - cron: '*/5 7-20 * * *'
+    - cron: '0-55/5 21 * * *'
   workflow_dispatch:
 
 jobs:
   collect:
     runs-on: ubuntu-latest
-
-    # Permissions nécessaires pour que le script puisse committer le CSV
     permissions:
       contents: write
 
@@ -42,7 +34,9 @@ jobs:
         run: |
           git config user.name "DLP Bot"
           git config user.email "dlp-bot@github-actions"
+          # Récupérer les derniers changements d'abord
+          git pull --rebase origin main
+          # Puis ajouter et committer
           git add data/wait_times.csv
           git diff --staged --quiet || git commit -m "Data: $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git pull --rebase origin main
           git push
