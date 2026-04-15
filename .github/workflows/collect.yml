@@ -2,78 +2,74 @@ name: Collecte temps d'attente DLP
 
 on:
   schedule:
-    # Toutes les 20 min de 6h à 21h40 UTC (= 8h à 23h40 Paris UTC+2)
-    # Si un job rate ou est retardé, le suivant arrive 20 min après max
-    - cron: '0,20,40 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 * * *'
-    - cron: '0,20,40 21 * * *'
+    # Toutes les 30 min de 6h à 21h30 UTC (= 8h à 23h30 Paris UTC+2)
+    # Job ultra-court (~2 min) — saute si l'appli locale a collecté récemment
+    - cron: '0,30 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 * * *'
   workflow_dispatch:
 
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 28
+    timeout-minutes: 5
     permissions:
       contents: write
 
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4.2.2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Vérifier si l'appli locale a collecté récemment (< 10 min)
+        id: check_local
+        run: |
+          LAST=$(git log -1 --format="%ct" -- data/wait_times.csv 2>/dev/null || echo "0")
+          NOW=$(date +%s)
+          DIFF=$(( NOW - LAST ))
+          echo "Dernier commit CSV : il y a ${DIFF}s"
+          if [ "$DIFF" -lt 600 ]; then
+            echo "✅ Appli locale active (${DIFF}s) — GitHub saute."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "⏰ Pas de collecte locale récente — GitHub collecte."
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Vérifier les horaires d'ouverture
+        id: check_hours
+        if: steps.check_local.outputs.skip == 'false'
+        run: |
+          T=$(( $(TZ='Europe/Paris' date +'%H') * 60 + $(TZ='Europe/Paris' date +'%M') ))
+          if [ $T -lt 480 ] || [ $T -ge 1410 ]; then
+            echo "Hors horaires — arrêt."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "Dans les horaires — collecte."
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Installer Python
+        if: steps.check_local.outputs.skip == 'false' && steps.check_hours.outputs.skip == 'false'
         uses: actions/setup-python@v5.6.0
         with:
           python-version: '3.11'
 
       - name: Installer les dépendances
+        if: steps.check_local.outputs.skip == 'false' && steps.check_hours.outputs.skip == 'false'
         run: pip install requests
 
-      - name: Collecte en boucle toutes les 5 min pendant 25 min
-        run: |
-          python3 << 'PYEOF'
-          import subprocess, time
-          from datetime import datetime, timezone, timedelta
-
-          PARIS = timezone(timedelta(hours=2))  # UTC+2 été
-          OPEN  = (8,  0)   # 8h00 Paris
-          CLOSE = (23, 30)  # 23h30 Paris
-          INTERVAL = 5 * 60  # 5 min
-          MAX_RUNS = 5        # 5 × 5min = 25 min (chevauchement de 5 min avec le job suivant)
-
-          start = time.monotonic()
-          runs = 0
-
-          for i in range(MAX_RUNS):
-              now = datetime.now(PARIS)
-              t = now.hour * 60 + now.minute
-              open_t  = OPEN[0]  * 60 + OPEN[1]
-              close_t = CLOSE[0] * 60 + CLOSE[1]
-
-              if open_t <= t < close_t:
-                  print(f"[{now.strftime('%H:%M')}] Collecte {i+1}/{MAX_RUNS}", flush=True)
-                  r = subprocess.run(["python3", "collect.py"], capture_output=True, text=True)
-                  if r.stdout: print(r.stdout[-300:])
-                  if r.returncode != 0: print("ERR:", r.stderr[-200:])
-                  runs += 1
-              else:
-                  print(f"[{now.strftime('%H:%M')}] Hors horaires, sauté.", flush=True)
-
-              if i < MAX_RUNS - 1:
-                  elapsed = time.monotonic() - start
-                  wait = (i + 1) * INTERVAL - elapsed
-                  if wait > 0:
-                      time.sleep(wait)
-
-          print(f"Fin : {runs} collectes.")
-          PYEOF
+      - name: Collecter les données
+        if: steps.check_local.outputs.skip == 'false' && steps.check_hours.outputs.skip == 'false'
+        run: python3 collect.py
 
       - name: Sauvegarder dans le dépôt
+        if: steps.check_local.outputs.skip == 'false' && steps.check_hours.outputs.skip == 'false'
         run: |
-          git config user.name "DLP Bot"
+          git config user.name  "DLP Bot"
           git config user.email "dlp-bot@github-actions"
           cp data/wait_times.csv /tmp/new_data.csv
           git fetch origin main
