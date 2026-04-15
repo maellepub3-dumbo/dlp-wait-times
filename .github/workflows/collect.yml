@@ -2,9 +2,11 @@ name: Collecte temps d'attente DLP
 
 on:
   schedule:
-    - cron: '30-59/5 6 * * *'
-    - cron: '*/5 7-20 * * *'
-    - cron: '0-55/5 21 * * *'
+    # Paris (UTC+2 été) → UTC : 8h00–23h30 Paris = 6h00–21h30 UTC
+    # Minutes explicites : 0,5,10,15,20,25,30,35,40,45,50,55 chaque heure
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 * * *'
+    # 21h00–21h30 Paris = dernière demi-heure (21h UTC)
+    - cron: '0,5,10,15,20,25,30 21 * * *'
   workflow_dispatch:
 
 jobs:
@@ -30,31 +32,34 @@ jobs:
       - name: Installer les dépendances
         run: pip install requests
 
+      - name: Vérifier les horaires (garde-fou)
+        run: |
+          PARIS_HOUR=$(TZ='Europe/Paris' date +'%H')
+          PARIS_MIN=$(TZ='Europe/Paris' date +'%M')
+          PARIS_TIME=$((PARIS_HOUR * 60 + PARIS_MIN))
+          OPEN=$((8 * 60 + 0))    # 8h00
+          CLOSE=$((23 * 60 + 30)) # 23h30
+          if [ $PARIS_TIME -lt $OPEN ] || [ $PARIS_TIME -ge $CLOSE ]; then
+            echo "Heure Paris: ${PARIS_HOUR}h${PARIS_MIN} — hors horaires, arrêt."
+            exit 0
+          fi
+          echo "Heure Paris: ${PARIS_HOUR}h${PARIS_MIN} — collecte en cours."
+
       - name: Lancer la collecte
         run: python collect.py
 
-      - name: Sauvegarder les données dans le dépôt
+      - name: Sauvegarder dans le dépôt
         run: |
           git config user.name "DLP Bot"
           git config user.email "dlp-bot@github-actions"
-
-          # Sauvegarder les nouvelles lignes collectées dans un fichier temporaire
           cp data/wait_times.csv /tmp/new_data.csv
-
-          # Récupérer la dernière version du dépôt (sans toucher au CSV local)
           git fetch origin main
           git reset --hard origin/main
-
-          # Réappliquer les nouvelles lignes par-dessus (en évitant les doublons)
-          # On compare les deux fichiers et on garde les lignes nouvelles uniquement
           if [ -f data/wait_times.csv ]; then
-            # Ajouter uniquement les lignes absentes du fichier distant
             comm -23 <(sort /tmp/new_data.csv) <(sort data/wait_times.csv) >> data/wait_times.csv
           else
             cp /tmp/new_data.csv data/wait_times.csv
           fi
-
-          # Committer et pousser
           git add data/wait_times.csv
-          git diff --staged --quiet || git commit -m "Data: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git diff --staged --quiet || git commit -m "Data: $(TZ='Europe/Paris' date +'%Y-%m-%d %H:%M Paris')"
           git push
