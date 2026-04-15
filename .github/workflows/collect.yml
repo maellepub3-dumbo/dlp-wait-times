@@ -2,16 +2,16 @@ name: Collecte temps d'attente DLP
 
 on:
   schedule:
-    # Paris (UTC+2 été) → UTC : 8h00–23h30 Paris = 6h00–21h30 UTC
-    # Minutes explicites : 0,5,10,15,20,25,30,35,40,45,50,55 chaque heure
-    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 * * *'
-    # 21h00–21h30 Paris = dernière demi-heure (21h UTC)
-    - cron: '0,5,10,15,20,25,30 21 * * *'
+    # Toutes les 20 min de 6h à 21h40 UTC (= 8h à 23h40 Paris UTC+2)
+    # Si un job rate ou est retardé, le suivant arrive 20 min après max
+    - cron: '0,20,40 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 * * *'
+    - cron: '0,20,40 21 * * *'
   workflow_dispatch:
 
 jobs:
   collect:
     runs-on: ubuntu-latest
+    timeout-minutes: 28
     permissions:
       contents: write
 
@@ -32,21 +32,44 @@ jobs:
       - name: Installer les dépendances
         run: pip install requests
 
-      - name: Vérifier les horaires (garde-fou)
+      - name: Collecte en boucle toutes les 5 min pendant 25 min
         run: |
-          PARIS_HOUR=$(TZ='Europe/Paris' date +'%H')
-          PARIS_MIN=$(TZ='Europe/Paris' date +'%M')
-          PARIS_TIME=$((PARIS_HOUR * 60 + PARIS_MIN))
-          OPEN=$((8 * 60 + 0))    # 8h00
-          CLOSE=$((23 * 60 + 30)) # 23h30
-          if [ $PARIS_TIME -lt $OPEN ] || [ $PARIS_TIME -ge $CLOSE ]; then
-            echo "Heure Paris: ${PARIS_HOUR}h${PARIS_MIN} — hors horaires, arrêt."
-            exit 0
-          fi
-          echo "Heure Paris: ${PARIS_HOUR}h${PARIS_MIN} — collecte en cours."
+          python3 << 'PYEOF'
+          import subprocess, time
+          from datetime import datetime, timezone, timedelta
 
-      - name: Lancer la collecte
-        run: python collect.py
+          PARIS = timezone(timedelta(hours=2))  # UTC+2 été
+          OPEN  = (8,  0)   # 8h00 Paris
+          CLOSE = (23, 30)  # 23h30 Paris
+          INTERVAL = 5 * 60  # 5 min
+          MAX_RUNS = 5        # 5 × 5min = 25 min (chevauchement de 5 min avec le job suivant)
+
+          start = time.monotonic()
+          runs = 0
+
+          for i in range(MAX_RUNS):
+              now = datetime.now(PARIS)
+              t = now.hour * 60 + now.minute
+              open_t  = OPEN[0]  * 60 + OPEN[1]
+              close_t = CLOSE[0] * 60 + CLOSE[1]
+
+              if open_t <= t < close_t:
+                  print(f"[{now.strftime('%H:%M')}] Collecte {i+1}/{MAX_RUNS}", flush=True)
+                  r = subprocess.run(["python3", "collect.py"], capture_output=True, text=True)
+                  if r.stdout: print(r.stdout[-300:])
+                  if r.returncode != 0: print("ERR:", r.stderr[-200:])
+                  runs += 1
+              else:
+                  print(f"[{now.strftime('%H:%M')}] Hors horaires, sauté.", flush=True)
+
+              if i < MAX_RUNS - 1:
+                  elapsed = time.monotonic() - start
+                  wait = (i + 1) * INTERVAL - elapsed
+                  if wait > 0:
+                      time.sleep(wait)
+
+          print(f"Fin : {runs} collectes.")
+          PYEOF
 
       - name: Sauvegarder dans le dépôt
         run: |
