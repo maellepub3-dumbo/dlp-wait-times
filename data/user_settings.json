@@ -125,10 +125,6 @@
     "A Celebration in Arendelle": {
       "zone": null
     },
-    "test": {
-      "duration": 20,
-      "zone": "Main Street, U.S.A."
-    },
     "test3": {
       "zone": "Worlds of Pixar",
       "duration": 20
@@ -138,17 +134,6 @@
     }
   },
   "manualShows": [
-    {
-      "name": "test",
-      "park": "Disneyland Park",
-      "zone": null,
-      "duration": 20,
-      "showtimes": [
-        "11:30",
-        "15:00"
-      ],
-      "manual": true
-    },
     {
       "name": "test3",
       "park": "Disney Adventure World",
