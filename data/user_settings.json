@@ -130,7 +130,8 @@
       "duration": 25
     },
     "test": {
-      "duration": 20
+      "duration": 20,
+      "zone": "Main Street, U.S.A."
     }
   },
   "manualShows": [
