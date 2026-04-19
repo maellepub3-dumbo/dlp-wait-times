@@ -136,6 +136,9 @@
     "test3": {
       "zone": "Worlds of Pixar",
       "duration": 20
+    },
+    "Disney Marching Band": {
+      "duration": 17
     }
   },
   "manualShows": [
