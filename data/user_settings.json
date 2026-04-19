@@ -118,7 +118,8 @@
   "manualShows": [],
   "restoEdits": {
     "Captain Jack's - Restaurant des Pirates": {
-      "zone": null
+      "zone": null,
+      "hours": ""
     }
   },
   "manualRestos": []
