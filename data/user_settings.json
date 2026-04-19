@@ -125,25 +125,9 @@
     "A Celebration in Arendelle": {
       "zone": null
     },
-    "test3": {
-      "zone": "Worlds of Pixar",
-      "duration": 20
-    },
     "Disney Marching Band": {
       "duration": 17
     }
   },
-  "manualShows": [
-    {
-      "name": "test3",
-      "park": "Disney Adventure World",
-      "zone": "Worlds of Pixar",
-      "duration": 20,
-      "showtimes": [
-        "10:15",
-        "12:27"
-      ],
-      "manual": true
-    }
-  ]
+  "manualShows": []
 }
