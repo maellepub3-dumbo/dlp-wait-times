@@ -110,18 +110,18 @@
   "restoEdits": {},
   "manualRestos": [],
   "manualPlan": {
-    "title": "Planning de visite",
+    "title": "Planning de visite v2",
     "days": [
       {
-        "label": "Lundi\nDisneyland Park",
+        "label": "Lundi",
         "park": "Disneyland Park"
       },
       {
-        "label": "Mardi\nDisney Adventure World",
+        "label": "Mardi",
         "park": "Disney Adventure World"
       },
       {
-        "label": "Mercredi\nDisneyland Park",
+        "label": "Mercredi",
         "park": "Disneyland Park"
       }
     ],
@@ -131,7 +131,7 @@
           {
             "time": "8h30-9h30",
             "zone": "disneyland",
-            "colA": "<font color=\"#0432ff\">- Ensemble : Peter Pan, Dumbo, Pinocchio, blanche neige</font>",
+            "colA": "- Ensemble : Peter Pan, Dumbo, Pinocchio, blanche neige",
             "colB": "",
             "twoCol": false,
             "bg": "#f5eeff",
@@ -162,7 +162,7 @@
           {
             "time": "9h30-11h",
             "zone": "disneyland",
-            "colA": "- <b>Ensemble</b> :  small world, <u>tasses</u>, caroussel de lancelot,",
+            "colA": "- Ensemble :  small world, tasses, caroussel de lancelot,",
             "colB": "",
             "twoCol": false,
             "bg": "#f5eeff",
