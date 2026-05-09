@@ -110,7 +110,7 @@
   "restoEdits": {},
   "manualRestos": [],
   "manualPlan": {
-    "title": "Planning de visite v2",
+    "title": "Planning de visite",
     "days": [
       {
         "label": "Lundi",
@@ -118,7 +118,7 @@
       },
       {
         "label": "Mardi",
-        "park": "Disney Adventure World"
+        "park": "Disneyland Park"
       },
       {
         "label": "Mercredi",
@@ -129,30 +129,30 @@
       {
         "cells": [
           {
-            "time": "8h30-9h30",
-            "zone": "disneyland",
-            "colA": "- Ensemble : Peter Pan, Dumbo, Pinocchio, blanche neige",
+            "time": "8h30–9h30",
+            "zone": "",
+            "colA": ",vclb,VC,lm",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "8h30-9h30",
-            "zone": "studio",
-            "colA": "- Ensemble : Spider Man, ratatouille<br>- Sarah et Maëlle : Tour de la terreur, RC Racer / parachutes<br>- Chloé : balade",
+            "time": "8h30–9h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#edf2f8",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "8h30-9h30",
-            "zone": "disneyland",
-            "colA": "- Sarah et Maëlle : Big thunder montain,  Space montain<br>- Chloé : Peter pan, blanche neige, pinocchio<br>- Ensemble : Buzz l'éclair",
+            "time": "8h30–9h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           }
         ]
@@ -160,30 +160,30 @@
       {
         "cells": [
           {
-            "time": "9h30-11h",
-            "zone": "disneyland",
-            "colA": "- Ensemble :  small world, tasses, caroussel de lancelot,",
+            "time": "9h30–11h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "9h30-11h",
-            "zone": "studio",
-            "colA": "- Ensemble : Zig Zag, cars?<br>- Sarah et Maëlle : tour de la terreur, cars, zig zag <br>- Chloé : queue la reine des neiges (10h30)",
+            "time": "9h30–11h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#edf2f8",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "9h30-11h",
-            "zone": "disneyland",
-            "colA": "- Ensemble : Pirate des caraibes<br>- Sarah et Maëlle : Indiana Jones, Star tour<br>- Chloé : small world, caroussel, casey, contes",
+            "time": "9h30–11h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           }
         ]
@@ -191,30 +191,30 @@
       {
         "cells": [
           {
-            "time": "11h-12h30",
-            "zone": "disneyland",
-            "colA": "- Ensemble : casey jr, contes de fées, sandwich, philarmagique (à 12h) glaces",
+            "time": "11h–12h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "11h-12h30",
-            "zone": "studio",
-            "colA": "- Chloé : fin Reine des neiges<br>- Maëlle (et Sarah) : Crush coster (en payant), <br>- Ensemble : Ratatouille (+Alice ou cars road trip)",
+            "time": "11h–12h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#edf2f8",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "11h-12h30",
-            "zone": "disneyland",
-            "colA": "Ensemble :<br> Parade Splash of colors<br>- Phantom manor<br>- Impro entre Star tour, caroussel, contes, casey, small world, phantom manor, <br>- repas qq part (Bella note?) <br>- Philarmagique",
+            "time": "11h–12h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           }
         ]
@@ -222,30 +222,30 @@
       {
         "cells": [
           {
-            "time": "13h-14h30",
-            "zone": "hotel",
-            "colA": "Piscine",
+            "time": "12h30–14h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#e3f2fd",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "13h-15h",
-            "zone": "hotel",
-            "colA": "Sieste",
+            "time": "12h30–14h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#e3f2fd",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "12h30-14h30",
-            "zone": "Disneyland",
-            "colA": "Le roi lion (12h15 ou 13h15)",
+            "time": "12h30–14h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           }
         ]
@@ -253,30 +253,30 @@
       {
         "cells": [
           {
-            "time": "14h30-16h30",
-            "zone": "hotel",
-            "colA": "Sieste",
+            "time": "14h–16h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#e3f2fd",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "15h-16h30",
-            "zone": "hotel",
-            "colA": "Piscine",
+            "time": "14h–16h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#e3f2fd",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "14h30- 17h",
-            "zone": "Studio",
-            "colA": "Mickey et le magicien (14h ou 15h)",
+            "time": "14h–16h30",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#edf2f8",
+            "bg": "",
             "fg": ""
           }
         ]
@@ -284,30 +284,30 @@
       {
         "cells": [
           {
-            "time": "17h-19h",
-            "zone": "disneyland",
-            "colA": "- Ensemble : (philarmagique si avant 17h)  parade, biegnet mickey  (Star tour) caroussel, tasses, contes, casey, small world",
+            "time": "16h30–19h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "17h-19h",
-            "zone": "disneyland",
-            "colA": "- Ensemble : (philarmagique si avant 17h)  parade, biegnet mickey  (Star tour) caroussel, tasses, contes, casey, small world",
+            "time": "16h30–19h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "16h30-18h",
-            "zone": "studio",
-            "colA": "- Ensemble : Alice ?? (ou mickey) ,  Cars Road trip, , zig zag, cars 4 roues rallye, Tour de la terreur",
+            "time": "16h30–19h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#edf2f8",
+            "bg": "",
             "fg": ""
           }
         ]
@@ -315,61 +315,30 @@
       {
         "cells": [
           {
-            "time": "19h-22h",
-            "zone": "disneyland",
-            "colA": "- Ensemble : Phantom manor, Pirate des caraibes, small world, repas- Ajout",
+            "time": "19h–22h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "19h-21h",
-            "zone": "disneyland",
-            "colA": "- Ensemble : Phantom manor, Indiana Jones (Balade Chloé), Pirate des caraibes, small world, repas",
+            "time": "19h–22h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#f5eeff",
+            "bg": "",
             "fg": ""
           },
           {
-            "time": "18h-20h",
-            "zone": "studio",
-            "colA": "- Ensemble : ratatouille, spider man single rider, idem avant",
+            "time": "19h–22h",
+            "zone": "",
+            "colA": "",
             "colB": "",
             "twoCol": false,
-            "bg": "#edf2f8",
-            "fg": ""
-          }
-        ]
-      },
-      {
-        "cells": [
-          {
-            "time": "22h-23h",
-            "zone": "disneyland",
-            "colA": "(- Ensemble : Buzz l'éclair)<br>- Sarah et Maëlle : Star tour, space montain, Indiana Jones, le train de la mine<br>- Chloé ; pirate des caraibes, phantom manor, ou dodo",
-            "colB": "",
-            "twoCol": false,
-            "bg": "#f5eeff",
-            "fg": ""
-          },
-          {
-            "time": "21h-23h",
-            "zone": "disneyland",
-            "colA": "- Sarah et Maëlle : Star tour, space montain<br>- Chloé : small world, pirate des caraibes, phantom manor<br>- Ensemble : Buzz l'éclair, feux d'artifice",
-            "colB": "",
-            "twoCol": false,
-            "bg": "#f5eeff",
-            "fg": ""
-          },
-          {
-            "time": "21h-23h",
-            "zone": "train",
-            "colA": "départ",
-            "colB": "",
-            "twoCol": false,
-            "bg": "#f5f5f5",
+            "bg": "",
             "fg": ""
           }
         ]
